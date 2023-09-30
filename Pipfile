@@ -12,6 +12,9 @@ djoser = "*"
 djangorestframework_simplejwt = "*"
 social-auth-app-django = "*"
 django-environ = "*"
+django-ckeditor = "*"
+django-countries = "*"
+pillow = "*"
 
 [dev-packages]
 
