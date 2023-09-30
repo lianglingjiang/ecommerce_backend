@@ -29,9 +29,9 @@ class Category(models.Model):
 
 class Brand(models.Model):
     """Product Brand"""
-    name = models.CharField()
-    desc = models.TextField()
-    image = models.ImageField(upload_to='brands/')
+    name = models.CharField(max_length=20, verbose_name='Brand name')
+    desc = models.TextField(max_length=255, verbose_name='Brand description')
+    image = models.ImageField(upload_to='brands/', verbose_name='Brand logo')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
     modified = models.DateTimeField(auto_now=True, verbose_name='Modified at')
 
@@ -44,9 +44,6 @@ class Product(models.Model):
     sku = models.CharField(max_length=50, default='', verbose_name='SKU', unique=True)
     name = models.CharField(max_length=255, verbose_name='Product Name')
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT, verbose_name='Brand')
-    clicks_count = models.IntegerField(default=0, verbose_name='Total Clicks')
-    sold_count = models.IntegerField(default=0, verbose_name='Total Sold')
-    favorites_count = models.IntegerField(default=0, verbose_name='Total Favorite')
     in_stock = models.IntegerField(default=0, verbose_name='In Stock')
     discount = models.BooleanField(default=False, verbose_name='On Sale')
     discount_rate = models.DecimalField(default=0, max_digits=10, decimal_places=2, verbose_name='Discount Rate (%)')
@@ -55,8 +52,11 @@ class Product(models.Model):
     desc = RichTextField(verbose_name='Description')
     free_shipping = models.BooleanField(default=False, verbose_name='Free Shipping')
     thumbnail = models.ImageField(upload_to='product_images/', null=True, blank=True, verbose_name='Thumbnail')
-    is_new = models.BooleanField(default=False, verbose_name='Newly arrival')
+    is_new = models.BooleanField(default=False, verbose_name='New Arrival')
     is_featured = models.BooleanField(default=False, verbose_name='Featured')
+    clicks_count = models.IntegerField(default=0, verbose_name='Total Clicks')
+    sold_count = models.IntegerField(default=0, verbose_name='Total Sold')
+    favorites_count = models.IntegerField(default=0, verbose_name='Total Favorite')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
     modified = models.DateTimeField(auto_now=True, verbose_name='Modified at')
 

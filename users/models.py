@@ -18,7 +18,7 @@ class UserProfile(AbstractUser):
     last_name = models.CharField(max_length=30, null=True, blank=True, verbose_name='Last Name')
     date_of_birth = models.DateField(null=True, blank=True, verbose_name='Date of Birth')
     mobile_phone = models.CharField(max_length=20, verbose_name='Mobile Phone', unique=True)
-    gender = models.CharField(max_length=20, verbose_name='Gender', choices=GENDERS)
+    gender = models.CharField(null=True, blank=True, max_length=20, verbose_name='Gender', choices=GENDERS)
     email = models.EmailField(max_length=100, null=True, blank=True, verbose_name='Email')
     image = models.ImageField(upload_to='avatar/', null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
@@ -29,7 +29,10 @@ class UserProfile(AbstractUser):
         verbose_name_plural = 'Users'
 
     def __str__(self):
-        return f'{self.first_name} {self.middle_name} {self.last_name}'
+        if self.middle_name is not None:
+            return f'{self.first_name} {self.middle_name} {self.last_name}'
+        else:
+            return f'{self.first_name} {self.last_name}'
 
 
 class VerifyCode(models.Model):
