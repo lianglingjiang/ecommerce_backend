@@ -12,6 +12,9 @@ class Cart(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
     modified = models.DateTimeField(auto_now=True, verbose_name='Modified at')
 
+    def __str__(self):
+        return f'{self.user}'
+
     class Meta:
         verbose_name = 'Shopping Cart'
 

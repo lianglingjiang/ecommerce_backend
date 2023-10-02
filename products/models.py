@@ -13,14 +13,17 @@ class Category(models.Model):
     name = models.CharField(default='', max_length=30, verbose_name='Category name')
     code = models.CharField(default='', max_length=30, verbose_name='Category code')
     desc = models.TextField(default='', verbose_name='Category description')
-    category_type = models.CharField(choices=CATEGORY_TYPE, verbose_name='Category type')
-    parent_category = models.ForeignKey('self', null=True,
+    category_type = models.IntegerField(choices=CATEGORY_TYPE, verbose_name='Category type')
+    parent_category = models.ForeignKey('self', blank=True, null=True,
                                         related_name='subcategory',
                                         verbose_name='Parent Category',
                                         on_delete=models.CASCADE)
-    is_featured = models.BinaryField(default=False, verbose_name='Is featured')
+    is_featured = models.BooleanField(default=False, verbose_name='Is featured')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
     modified = models.DateTimeField(auto_now=True, verbose_name='Modified at')
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = 'Category'
@@ -34,6 +37,9 @@ class Brand(models.Model):
     image = models.ImageField(upload_to='brands/', verbose_name='Brand logo')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
     modified = models.DateTimeField(auto_now=True, verbose_name='Modified at')
+
+    def __str__(self):
+        return self.name
 
 
 class Product(models.Model):
@@ -60,10 +66,13 @@ class Product(models.Model):
     created = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
     modified = models.DateTimeField(auto_now=True, verbose_name='Modified at')
 
+    def __str__(self):
+        return self.name
+
 
 class ProductImage(models.Model):
     """Product Images"""
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Category')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Product')
     image = models.ImageField(upload_to='product_images/', null=True, blank=True, verbose_name='Product Images')
     image_url = models.CharField(max_length=300, null=True, blank=True, verbose_name='Image URL')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Created at')
